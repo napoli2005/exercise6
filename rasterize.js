@@ -186,8 +186,7 @@ function renderTriangles() {
     // Step 3: Shift it slightly left and up into its final position
     mat4.translate(inputTriangles[0].mMatrix, inputTriangles[0].mMatrix, vec3.fromValues(-0.6, 0.05, 0.0));
     
-    // Step 2: Rotate ~235 degrees (or -125 degrees) so the sharp point faces down-right
-    mat4.rotate(inputTriangles[0].mMatrix, inputTriangles[0].mMatrix, (150 * Math.PI) / 180, vec3.fromValues(0, 0, 1));
+    mat4.rotate(inputTriangles[0].mMatrix, inputTriangles[0].mMatrix, (135 * Math.PI) / 180, vec3.fromValues(0, 0, 1));
     
     // Step 1: Center its default coordinates (0.25, 0.7) on the origin
     mat4.translate(inputTriangles[0].mMatrix, inputTriangles[0].mMatrix, vec3.fromValues(-0.25, -0.7, 0.0));
@@ -197,7 +196,7 @@ function renderTriangles() {
     inputTriangles[1].mMatrix = mat4.create();
     
     // Step 4: Position it lower down and slightly left of center
-    mat4.translate(inputTriangles[1].mMatrix, inputTriangles[1].mMatrix, vec3.fromValues(-0.15, -0.3, 0.0));
+    mat4.translate(inputTriangles[1].mMatrix, inputTriangles[1].mMatrix, vec3.fromValues(-0.15, -0.40, 0.0));
     
     // Step 3: Rotate exactly 45 degrees to stand it perfectly on its corner
     mat4.rotate(inputTriangles[1].mMatrix, inputTriangles[1].mMatrix, Math.PI / 4, vec3.fromValues(0, 0, 1));
