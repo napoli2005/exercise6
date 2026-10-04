@@ -180,23 +180,33 @@ function setupShaders() {
 function renderTriangles() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); // clear frame/depth buffers
     
-    // define the modeling matrix for the first set 
-    inputTriangles[0].mMatrix = mat4.create(); // modeling mat for tri set
-    var setCenter = vec3.fromValues(.25,.75,0);  // center coords of tri set 
-    mat4.fromTranslation(inputTriangles[0].mMatrix,vec3.negate(vec3.create(),setCenter)); // translate to origin
-    mat4.multiply(inputTriangles[0].mMatrix,
-                  mat4.fromRotation(mat4.create(),Math.PI/2,vec3.fromValues(0,0,1)),
-                  inputTriangles[0].mMatrix); // rotate 90 degs
-    mat4.multiply(inputTriangles[0].mMatrix,
-                  mat4.fromTranslation(mat4.create(),setCenter),
-                  inputTriangles[0].mMatrix); // move back to center
-        
-    // define the modeling matrix for the second set
+    inputTriangles[0].mMatrix = mat4.create(); 
+    
+    // Step 4: Move it to its final position on the left-middle side of the screen
+    mat4.translate(inputTriangles[0].mMatrix, inputTriangles[0].mMatrix, vec3.fromValues(-0.6, -0.1, 0.0));
+    
+    // Step 3: Rotate it roughly 60 degrees (~1.05 radians) counterclockwise
+    mat4.rotate(inputTriangles[0].mMatrix, inputTriangles[0].mMatrix, 1.05, vec3.fromValues(0, 0, 1));
+    
+    // Step 2: Remap/Normalize out of the positive quadrant to center it at the origin
+    mat4.translate(inputTriangles[0].mMatrix, inputTriangles[0].mMatrix, vec3.fromValues(-0.25, -0.7, 0.0));
+    
+    
     inputTriangles[1].mMatrix = mat4.create();
+    
+    // Step 4: Position it lower down and slightly towards the center of the canvas
+    mat4.translate(inputTriangles[1].mMatrix, inputTriangles[1].mMatrix, vec3.fromValues(-0.3, -0.5, 0.0));
+    
+    // Step 3: Rotate exactly 45 degrees (PI/4) around the Z-axis to stand it up like a diamond
+    mat4.rotate(inputTriangles[1].mMatrix, inputTriangles[1].mMatrix, Math.PI / 4, vec3.fromValues(0, 0, 1));
+    
+    // Step 2: Translate its geometric center (0.25, 0.25) to the origin (0,0) so it rotates cleanly
+    mat4.translate(inputTriangles[1].mMatrix, inputTriangles[1].mMatrix, vec3.fromValues(-0.25, -0.25, 0.0));
+
     
     for (var whichTriSet=0; whichTriSet<numTriangleSets; whichTriSet++) { 
         
-        // pass modeling matrix for set to shadeer
+        // pass modeling matrix for set to shader
         gl.uniformMatrix4fv(modelMatrixULoc, false, inputTriangles[whichTriSet].mMatrix);
 
         // vertex buffer: activate and feed into vertex shader
@@ -208,6 +218,7 @@ function renderTriangles() {
         gl.drawElements(gl.TRIANGLES,3*triSetSizes[whichTriSet],gl.UNSIGNED_SHORT,0); // render
     } // end for each tri set
 } // end render triangles
+
 
 
 /* MAIN -- HERE is where execution begins after window load */
