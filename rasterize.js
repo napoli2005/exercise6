@@ -180,28 +180,24 @@ function setupShaders() {
 function renderTriangles() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); // clear frame/depth buffers
     
-    // =========================================================================
-    // === SET 0: THE TRIANGLE (Points down and right, shifts slightly left) ===
-    // =========================================================================
+
     inputTriangles[0].mMatrix = mat4.create(); 
     
     // Step 3: Shift it slightly left and up into its final position
-    mat4.translate(inputTriangles[0].mMatrix, inputTriangles[0].mMatrix, vec3.fromValues(-0.4, 0.05, 0.0));
+    mat4.translate(inputTriangles[0].mMatrix, inputTriangles[0].mMatrix, vec3.fromValues(-0.6, 0.05, 0.0));
     
     // Step 2: Rotate ~235 degrees (or -125 degrees) so the sharp point faces down-right
-    mat4.rotate(inputTriangles[0].mMatrix, inputTriangles[0].mMatrix, (235 * Math.PI) / 180, vec3.fromValues(0, 0, 1));
+    mat4.rotate(inputTriangles[0].mMatrix, inputTriangles[0].mMatrix, (150 * Math.PI) / 180, vec3.fromValues(0, 0, 1));
     
     // Step 1: Center its default coordinates (0.25, 0.7) on the origin
     mat4.translate(inputTriangles[0].mMatrix, inputTriangles[0].mMatrix, vec3.fromValues(-0.25, -0.7, 0.0));
     
     
-    // =========================================================================
-    // === SET 1: THE SQUARE -> DIAMOND (Stays big, stands on point) ===
-    // =========================================================================
+
     inputTriangles[1].mMatrix = mat4.create();
     
     // Step 4: Position it lower down and slightly left of center
-    mat4.translate(inputTriangles[1].mMatrix, inputTriangles[1].mMatrix, vec3.fromValues(-0.15, -0.25, 0.0));
+    mat4.translate(inputTriangles[1].mMatrix, inputTriangles[1].mMatrix, vec3.fromValues(-0.15, -0.3, 0.0));
     
     // Step 3: Rotate exactly 45 degrees to stand it perfectly on its corner
     mat4.rotate(inputTriangles[1].mMatrix, inputTriangles[1].mMatrix, Math.PI / 4, vec3.fromValues(0, 0, 1));
@@ -213,9 +209,6 @@ function renderTriangles() {
     mat4.translate(inputTriangles[1].mMatrix, inputTriangles[1].mMatrix, vec3.fromValues(-0.25, -0.25, 0.0));
 
     
-    // =========================================================================
-    // === YOUR LOOP RUNS UNCHANGED ===
-    // =========================================================================
     for (var whichTriSet=0; whichTriSet<numTriangleSets; whichTriSet++) { 
         
         // pass modeling matrix for set to shader
